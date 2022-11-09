@@ -22,7 +22,8 @@ const PostsController = {
       message: req.body.message, 
       user: req.user_id, 
       token: req.body.token, 
-      img: req.body.img};
+      img: req.body.img
+    };
     console.log(postData);
 
     const post = new Post(postData);
