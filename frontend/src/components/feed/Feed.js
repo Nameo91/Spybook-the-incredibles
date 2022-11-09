@@ -17,7 +17,7 @@ const Feed = ({ navigate }) => {
   const UploadImage = () => {
     const imageRef = ref(storage, `images/${image.name + v4()}`);
     return uploadBytes(imageRef, image).then((snapshot) => {
-      alert("Image Uploaded");
+      // alert("Image Uploaded");
       return getDownloadURL(snapshot.ref);
     });
   };

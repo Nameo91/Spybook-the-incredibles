@@ -17,7 +17,6 @@ const SignUpForm = ({ navigate }) => {
 
     const imageRef = ref(storage, `imageProfile/${image.name + v4()}`);
     return uploadBytes(imageRef, image).then((snapshot) => {
-      alert("Image Uploaded");
       return getDownloadURL(snapshot.ref);
     });
   };
@@ -32,16 +31,17 @@ const SignUpForm = ({ navigate }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ name: name, email: email, password: password, img: url })
+      })
       .then(response => {
         if(response.status === 201) {
           navigate('/')
         } else {
-          navigate('/signup')
-          document.querySelector(".signUpErrorMessage").style.display = 'block'
+          navigate('/signup');
+          document.querySelector(".signUpErrorMessage").style.display = 'block';
         }
       })
     })
-  }
+}
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value)
