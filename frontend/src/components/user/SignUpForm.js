@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import "./signUpForm.css";
 import Footer from '../footer/footer'
+import { storage } from "../firebase";
+import { uploadBytes, ref, getDownloadURL } from "firebase/storage";
+import { v4 } from "uuid";
 
 const SignUpForm = ({ navigate }) => {
 
@@ -9,16 +12,26 @@ const SignUpForm = ({ navigate }) => {
   const [password, setPassword] = useState("");
   const [image, setImage] = useState("");
 
+  const UploadImage = () => {
+    if (image === null) return;
+
+    const imageRef = ref(storage, `imageProfile/${image.name + v4()}`);
+    return uploadBytes(imageRef, image).then((snapshot) => {
+      alert("Image Uploaded");
+      return getDownloadURL(snapshot.ref);
+    });
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    fetch( '/users', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name: name, email: email, password: password, img: image })
-    })
+  
+    UploadImage().then((url) => {
+      fetch( '/users', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: name, email: email, password: password, img: url })
       .then(response => {
         if(response.status === 201) {
           navigate('/')
@@ -27,6 +40,7 @@ const SignUpForm = ({ navigate }) => {
           document.querySelector(".signUpErrorMessage").style.display = 'block'
         }
       })
+    })
   }
 
   const handleEmailChange = (event) => {
@@ -62,7 +76,7 @@ const SignUpForm = ({ navigate }) => {
               <input placeholder="Password" type='password' value={ password } onChange={handlePasswordChange} />
               
               <div className="set-user-image">
-                <input type="file" id="userImage" name="filename" value={ image } onChange={handleImageChange} />
+                <input type="file" id="userImage" name="filename" onChange={handleImageChange} />
                 <span> Upload your profile picture</span>
               </div>
             

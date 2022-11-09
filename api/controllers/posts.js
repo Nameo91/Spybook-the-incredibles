@@ -24,7 +24,8 @@ const PostsController = {
       message: req.body.message, 
       user: req.user_id, 
       token: req.body.token, 
-      img: req.body.img};
+      img: req.body.img
+    };
     console.log(postData);
     if (req.body.message === "") {
       res.status(400).json({ message: "Field cannot be empty"});

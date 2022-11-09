@@ -55,6 +55,19 @@
   padding: 0.8rem 1.6rem 0.8rem 1.6rem;
 }
 
+.post-image {
+  margin: 0 auto;
+  padding: 5px;
+  width: 400px;
+  display: none;
+}
+
+.image-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .reactions-container {
   display: flex;
   align-items: center;
