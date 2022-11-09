@@ -6,11 +6,9 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as faSolideHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faRegularHeart } from "@fortawesome/free-regular-svg-icons";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 const elementHeartOutline = <FontAwesomeIcon icon={faRegularHeart} size="2x" />;
 const elementHeartShaded = <FontAwesomeIcon icon={faSolideHeart} size="2x" />;
-const elementPaperPlane = <FontAwesomeIcon icon={faPaperPlane} size="2x" />;
 
 const token = window.localStorage.getItem("token");
 
@@ -31,6 +29,7 @@ const handleNewLike = (post, status) => {
 }
 
 const Post = ({post, sessionUserName, sessionUserId }) => {
+  
   let likeButton = () => {
     if (post.likes.includes(sessionUserId)) {
       return elementHeartShaded;
@@ -66,13 +65,6 @@ const Post = ({post, sessionUserName, sessionUserId }) => {
         setToken(window.localStorage.getItem("token"))
         setComments(data.message);
       })
-        .then((response) => response.json())
-        .then(async (data) => {
-          window.localStorage.setItem("token", data.token);
-          setToken(window.localStorage.getItem("token"));
-          // console.log(data);
-          setComments(data.message);
-        });
     }
   };
 
