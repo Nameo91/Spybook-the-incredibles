@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { storage } from "../firebase";
-import { uploadBytes, ref, getDownloadURL } from "firebase/storage";
-import { v4 } from "uuid";
+import { UploadImage } from "../UploadImage/UploadImage";
 import Navbar from "../Navbar/Navbar";
 import Post from "../post/Post";
 import "./Feed.css";
@@ -10,17 +8,10 @@ const Feed = ({ navigate }) => {
   const [posts, setPosts] = useState([]);
   const [message, setMessage] = useState("");
   const [image, setImage] = useState(null);
+  const [imageURL, setImageURL] = useState("");
   const [token, setToken] = useState(window.localStorage.getItem("token"));
   const [userName, setUserName] = useState("");
   const [userId, setUserId] = useState("");
-
-  const UploadImage = () => {
-    const imageRef = ref(storage, `images/${image.name + v4()}`);
-    return uploadBytes(imageRef, image).then((snapshot) => {
-      // alert("Image Uploaded");
-      return getDownloadURL(snapshot.ref);
-    });
-  };
 
   const loadPosts = () => {
     if (token) {
@@ -33,7 +24,6 @@ const Feed = ({ navigate }) => {
         .then(async (data) => {
           window.localStorage.setItem("token", data.token);
           setToken(window.localStorage.getItem("token"));
-          //console.log(data);
           setPosts(data.posts);
         });
     }
@@ -48,10 +38,9 @@ const Feed = ({ navigate }) => {
       })
         .then((response) => response.json())
         .then(async (data) => {
-          // window.localStorage.setItem("token", data.token)
-          // setToken(window.localStorage.getItem("token"))
           console.log(data);
           setUserName(data.name);
+          setImageURL(data.img);
           setUserId(data.id);
         });
     }
@@ -64,9 +53,14 @@ const Feed = ({ navigate }) => {
   const handlePostSubmit = async (event) => {
     event.preventDefault();
     setMessage("");
-    UploadImage().then((url) => {
-      fetchApi(url);
-    });
+    setImage(null);
+    if (image !== null) {
+      UploadImage(image).then((url) => {
+        fetchApi(url);
+      });
+    } else {
+      fetchApi();
+    }
   };
 
   const fetchApi = (url) => {
@@ -114,6 +108,14 @@ const Feed = ({ navigate }) => {
     document.querySelector(".emptyPostErrorMessage").style.display = 'none'
   }
 
+  const defaultImage = () => {
+    if (imageURL === null) {
+      return "/images/default_image.png";
+    } else {
+      return imageURL;
+    }
+  }
+  
   if (token) {
     return (
       <>
@@ -153,8 +155,8 @@ const Feed = ({ navigate }) => {
         <div className="write-post-container">
           <div className="write-post-box">
             <img
-              src="/images/bird-avator.png"
-              alt="avatar"
+              src={ defaultImage() }
+              alt="profile-pic"
               className="write-post-pic"
             ></img>
             <div onClick={handlePopUp} className="write-post-input">
