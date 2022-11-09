@@ -79,12 +79,18 @@ const Feed = ({ navigate }) => {
       },
       body: JSON.stringify({ token: token, message: message, img: url }),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        loadPosts();
-        //console.log(data);
-        handlePopUpClosing();
-      });
+      .then(response => response.json())
+      .then(
+        data => { 
+        if (data.message === 'Field cannot be empty') {
+          document.querySelector(".emptyPostErrorMessage").style.display = 'block'
+        } else {
+          loadPosts();
+          console.log(data);
+          handlePopUpClosing();
+        }
+        
+      })
   }
 
   const handleMessageChange = (event) => {
@@ -96,15 +102,17 @@ const Feed = ({ navigate }) => {
   };
 
   const handlePopUp = () => {
-    document.querySelector(".popup-background").style.display = "block";
-    document.querySelector(".create-post-box").style.display = "block";
-  };
+    document.querySelector(".popup-background").style.display = 'block';
+    document.querySelector(".create-post-box").style.display = 'block';
+
+  }
 
   const handlePopUpClosing = () => {
-    document.querySelector(".create-post-box #post-message").value = "";
-    document.querySelector(".popup-background").style.display = "none";
-    document.querySelector(".create-post-box").style.display = "none";
-  };
+    document.querySelector(".create-post-box #post-message").value = '';
+    document.querySelector(".popup-background").style.display = 'none';
+    document.querySelector(".create-post-box").style.display = 'none';
+    document.querySelector(".emptyPostErrorMessage").style.display = 'none'
+  }
 
   if (token) {
     return (
@@ -119,6 +127,7 @@ const Feed = ({ navigate }) => {
           <header>Create Post</header>
           <hr />
           <form onSubmit={handlePostSubmit}>
+            <div className="emptyPostErrorMessage">No empty thoughts allowed! &#128584;</div>
             <input
               id="post-message"
               placeholder={`What's on your mind, ${userName}?`}

@@ -7,11 +7,13 @@ const PostsController = {
     const populatedPosts = Post.find().populate('user');
     populatedPosts.find().sort('-date').find(async (err, posts) => {
       if (err) {
-        throw err;
+        res.status(400).json({message: 'Bad request'})
+      } else {
+        const token = await TokenGenerator.jsonwebtoken(req.user_id)
+        res.status(200).json({ posts: posts, token: token, user: req.user_id });
       }
      
-      const token = await TokenGenerator.jsonwebtoken(req.user_id)
-      res.status(200).json({ posts: posts, token: token, user: req.user_id });
+      
     });
   },
 
@@ -25,35 +27,45 @@ const PostsController = {
       img: req.body.img
     };
     console.log(postData);
+    if (req.body.message === "") {
+      res.status(400).json({ message: "Field cannot be empty"});
 
-    const post = new Post(postData);
-    post.save(async (err) => {
-      if (err) {
-        throw err;
-      }
-
+    } else {
+      const post = new Post(postData);
+      post.save(async (err) => {
       const token = await TokenGenerator.jsonwebtoken(req.user_id)
       res.status(201).json({ post: post, token: token});
     });
+
+    }
+    
   },
 
   Likes: (req, res) => {
-    let postData = {post: req.body.post, token: req.body.token};
-
+    let postData = {post: req.body.post, token: req.body.token, status: req.body.status};
+    
+    if (req.body.status === "notLiked") {
     postData.post.likes.push(req.user_id)
 
-
-  Post.findByIdAndUpdate(postData.post._id,
-    { "$push": { "likes": req.user_id } },
-    { "new": true, "upsert": true },
-    function (err) {
-        if (err) throw err;
-        console.log('error');
+      Post.findByIdAndUpdate(postData.post._id,
+        { "$push": { "likes": req.user_id } },
+        { "new": true, "upsert": true },
+        function (err) {
+            if (err) throw err;
+            console.log('error');
+          }
+        );
+        
+    } else {
+      Post.findByIdAndUpdate(postData.post._id,
+        { "$pull": { "likes": req.user_id } },
+        { safe: true, upsert: true },
+        function (err) {
+            if (err) throw err;
+            console.log('error');
+          }
+        );
     }
-);
-  
-   
-  postData.post.likes.push(req.user_id)
 
   res.status(200).json({token: postData.token, post: postData.post, post_id: postData.post._id, likes: postData.post.likes });
   }

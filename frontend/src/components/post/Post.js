@@ -13,35 +13,42 @@ const elementHeartShaded = <FontAwesomeIcon icon={faSolideHeart} size="2x" />;
 const elementPaperPlane = <FontAwesomeIcon icon={faPaperPlane} size="2x" />;
 
 const token = window.localStorage.getItem("token");
-var heartButton = elementHeartOutline;
 
-const handleNewLike = (post) => {
-  if (token)
-    fetch("/posts", {
-      method: "put",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ token: token, post: post }),
+const handleNewLike = (post, status) => {
+  if(token) fetch("/posts", {
+    method: 'put',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({token: token, post: post, status: status})
+  })
+    .then(response => response.json())
+    .then(
+      data => {  
+      console.log(data)
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        heartButton = elementHeartShaded;
-      });
-};
+}
 
-const Post = ({ post, sessionUserName, sessionUserId }) => {
-  let userLiked = () => {
+const Post = ({post, sessionUserName, sessionUserId }) => {
+  let likeButton = () => {
     if (post.likes.includes(sessionUserId)) {
       return elementHeartShaded;
     } else {
       return elementHeartOutline;
     }
   };
+  
+  likeButton()
 
-  userLiked();
+  let alreadyLiked = (post) => {
+    if (post.likes.includes(sessionUserId)) {
+      handleNewLike(post, 'liked')
+      }
+    else {
+      handleNewLike(post, 'notLiked')
+    }
+  }
 
   const [comments, setComments] = useState([]);
   const [token, setToken] = useState(window.localStorage.getItem("token"));
@@ -50,8 +57,14 @@ const Post = ({ post, sessionUserName, sessionUserId }) => {
     if (token) {
       fetch("/comments", {
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(response => response.json())
+      .then(async data => {
+        window.localStorage.setItem("token", data.token)
+        setToken(window.localStorage.getItem("token"))
+        setComments(data.message);
       })
         .then((response) => response.json())
         .then(async (data) => {
@@ -99,21 +112,19 @@ const Post = ({ post, sessionUserName, sessionUserId }) => {
             < img className="post-image" src={post.img} />
           </div>
         </div>
-        {/*POST FOOTER*/}
-        <div className="post-footer">
-          <div className="reactions-container">
-            <div className="likes">
-              <form onSubmit={() => handleNewLike(post)}>
-                <button id="likes-button"> {userLiked()} </button>
-                <span id="likes-count">{post.likes.length}</span>
-              </form>
-            </div>
-            <div>
-              <span className="comments-number">
-                {relatedComments.length} Comments
-              </span>
-            </div>
-          </div>
+            {/*POST FOOTER*/}
+            <div className="post-footer">
+              <div className="reactions-container">
+                <div className="likes">
+                <form onSubmit={ () => alreadyLiked(post) }>
+                  <button id="likes-button"> { likeButton() } </button>
+                  <span id="likes-count">{post.likes.length}</span>
+                </form>
+                </div>
+                <div>
+                  <span className="comments-number">{relatedComments.length} Comments</span>
+                </div>
+              </div>
           <div className="saparator"></div>
         </div>
         {/* WRITE COMMENT*/}
@@ -127,5 +138,6 @@ const Post = ({ post, sessionUserName, sessionUserId }) => {
     </div>
   );
 };
+
 
 export default Post;

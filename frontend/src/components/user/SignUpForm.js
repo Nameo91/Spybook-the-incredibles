@@ -24,7 +24,7 @@ const SignUpForm = ({ navigate }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+  
     UploadImage().then((url) => {
       fetch( '/users', {
         method: 'post',
@@ -32,15 +32,15 @@ const SignUpForm = ({ navigate }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ name: name, email: email, password: password, img: url })
+      .then(response => {
+        if(response.status === 201) {
+          navigate('/')
+        } else {
+          navigate('/signup')
+          document.querySelector(".signUpErrorMessage").style.display = 'block'
+        }
       })
-        .then(response => {
-          if(response.status === 201) {
-            navigate('/')
-          } else {
-            navigate('/signup')
-          }
-        });
-    });
+    })
   }
 
   const handleEmailChange = (event) => {
@@ -70,6 +70,7 @@ const SignUpForm = ({ navigate }) => {
 
         <div className = "register-box">
           <form onSubmit={handleSubmit}>
+              <div className="signUpErrorMessage">Sign up details are incorrect.</div>
               <input placeholder="Full Name" type='text' value={ name } onChange={handleNameChange} />
               <input placeholder="Email address" type='text' value={ email } onChange={handleEmailChange} />
               <input placeholder="Password" type='password' value={ password } onChange={handlePasswordChange} />
