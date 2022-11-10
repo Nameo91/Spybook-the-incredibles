@@ -38,7 +38,6 @@ const Feed = ({ navigate }) => {
       })
         .then((response) => response.json())
         .then(async (data) => {
-          console.log(data);
           setUserName(data.name);
           setImageURL(data.img);
           setUserId(data.id);
@@ -98,7 +97,6 @@ const Feed = ({ navigate }) => {
   const handlePopUp = () => {
     document.querySelector(".popup-background").style.display = 'block';
     document.querySelector(".create-post-box").style.display = 'block';
-
   }
 
   const handlePopUpClosing = () => {
