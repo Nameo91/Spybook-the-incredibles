@@ -205,6 +205,26 @@
   font-weight: 400;
 } 
 
+#likes-popup {
+  position: absolute;
+  z-index: 999;
+  width: 100px;
+  padding: 10px;
+  text-align: left;
+  border-radius: 5px;
+  background: rgba(66, 32, 102, 0.5);
+  color: white;
+  font-weight: 300;
+  font-size: 15px;
+  box-shadow: 0px 1px 5px 1px rgba(71, 71, 71, 0.52);
+  margin:50px;
+  display: none;
+}
+
+#likes-count:hover~#likes-popup {
+  display: block;
+}
+
 
 
 

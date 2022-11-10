@@ -92,7 +92,14 @@ const Post = ({post, sessionUserId }) => {
     }
   };
 
-  console.log(relatedLike);
+  const likers = () => {
+    if (relatedLike.users === 0) {
+      return ''
+    } else {
+      var preLikers = relatedLike.users.map(user => user.name);
+      return preLikers.join('\n');
+    }
+  } 
 
   return (
     <div className="posts-container" data-cy="post" key={post._id}>
@@ -117,7 +124,7 @@ const Post = ({post, sessionUserId }) => {
         <div className="post-content">
           <p className="content-paragraph">{post.message}</p>
           <div className="image-content">
-            < img className="post-image" src={post.img} />
+            <img className="post-image" src={post.img} />
           </div>
         </div>
             {/*POST FOOTER*/}
@@ -126,7 +133,8 @@ const Post = ({post, sessionUserId }) => {
                 <div className="likes">
                   <button onClick={ handleLikeSubmit } id="likes-button"> { likeButton() } </button>
                   <span id="likes-count">{relatedLike.users.length}</span>
-                </div>
+                  <div id="likes-popup">{likers()}</div>
+                </div>  
                 <div>
                   <span className="comments-number">{relatedComments.length} Comments</span>
                 </div>

@@ -48,8 +48,6 @@ const Feed = ({ navigate }) => {
       })
         .then((response) => response.json())
         .then(async (data) => {
-          // window.localStorage.setItem("token", data.token)
-          // setToken(window.localStorage.getItem("token"))
           setUserName(data.name);
           setUserId(data.id);
         });
@@ -103,7 +101,6 @@ const Feed = ({ navigate }) => {
   const handlePopUp = () => {
     document.querySelector(".popup-background").style.display = 'block';
     document.querySelector(".create-post-box").style.display = 'block';
-
   }
 
   const handlePopUpClosing = () => {
