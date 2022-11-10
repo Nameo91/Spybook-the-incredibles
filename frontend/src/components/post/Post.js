@@ -10,47 +10,12 @@ import { faHeart as faRegularHeart } from "@fortawesome/free-regular-svg-icons";
 const elementHeartOutline = <FontAwesomeIcon icon={faRegularHeart} size="2x" />;
 const elementHeartShaded = <FontAwesomeIcon icon={faSolideHeart} size="2x" />;
 
-const token = window.localStorage.getItem("token");
 
-const handleNewLike = (post, status) => {
-  if(token) fetch("/posts", {
-    method: 'put',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({token: token, post: post, status: status})
-  })
-    .then(response => response.json())
-    .then(
-      data => {  
-      console.log(data)
-    })
-}
-
-const Post = ({post, sessionUserName, sessionUserId }) => {
-  
-  let likeButton = () => {
-    if (post.likes.includes(sessionUserId)) {
-      return elementHeartShaded;
-    } else {
-      return elementHeartOutline;
-    }
-  };
-  
-  likeButton()
-
-  let alreadyLiked = (post) => {
-    if (post.likes.includes(sessionUserId)) {
-      handleNewLike(post, 'liked')
-      }
-    else {
-      handleNewLike(post, 'notLiked')
-    }
-  }
-
+const Post = ({post, sessionUserId }) => {
   const [comments, setComments] = useState([]);
+  const [likes, setLikes] = useState([]);
   const [token, setToken] = useState(window.localStorage.getItem("token"));
+  const [relatedLike, setRelatedLike] = useState({users: []});
 
   const loadComments = () => {
     if (token) {
@@ -77,6 +42,57 @@ const Post = ({post, sessionUserName, sessionUserId }) => {
   });
 
   useEffect(loadComments, []);
+
+  const loadLikes = () => {
+    if (token) {
+      fetch("/likes", {
+        headers: {
+        'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(response => response.json())
+      .then(async data => {
+        setLikes(data.likes);
+        (data.likes).map((like) => {
+          if (post._id === like.post) {
+            setRelatedLike(like);
+          } 
+        });
+        
+      })
+    }
+  };
+
+  useEffect(loadLikes, []);
+
+  const handleLikeSubmit = async (event) => {
+    event.preventDefault();
+  
+    if (token) fetch('/likes', {
+      method: 'put',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ post: post._id })
+    })  
+      .then(response => response.json())
+      .then(
+        data => {  
+        loadLikes();
+        console.log(data);
+      })     
+}
+
+  const likeButton = () => {
+    if (relatedLike.users.some(e => e._id === sessionUserId)) {
+      return elementHeartShaded;
+    } else {
+      return elementHeartOutline;
+    }
+  };
+
+  console.log(relatedLike);
 
   return (
     <div className="posts-container" data-cy="post" key={post._id}>
@@ -108,10 +124,8 @@ const Post = ({post, sessionUserName, sessionUserId }) => {
             <div className="post-footer">
               <div className="reactions-container">
                 <div className="likes">
-                <form onSubmit={ () => alreadyLiked(post) }>
-                  <button id="likes-button"> { likeButton() } </button>
-                  <span id="likes-count">{post.likes.length}</span>
-                </form>
+                  <button onClick={ handleLikeSubmit } id="likes-button"> { likeButton() } </button>
+                  <span id="likes-count">{relatedLike.users.length}</span>
                 </div>
                 <div>
                   <span className="comments-number">{relatedComments.length} Comments</span>
@@ -120,7 +134,7 @@ const Post = ({post, sessionUserName, sessionUserId }) => {
           <div className="saparator"></div>
         </div>
         {/* WRITE COMMENT*/}
-        <CommentForm postId={post._id} loadComments={loadComments} />
+        <CommentForm postId={post._id} loadComments={ loadComments } />
 
         {/* ALL COMMENTS*/}
         {relatedComments.map((comment) => (

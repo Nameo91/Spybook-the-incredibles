@@ -1,5 +1,4 @@
 const Comment = ({ comment }) => {
-
     return(
       <>
       {/* SEE COMMENTS*/}

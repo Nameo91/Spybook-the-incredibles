@@ -50,7 +50,6 @@ const Feed = ({ navigate }) => {
         .then(async (data) => {
           // window.localStorage.setItem("token", data.token)
           // setToken(window.localStorage.getItem("token"))
-          console.log(data);
           setUserName(data.name);
           setUserId(data.id);
         });
