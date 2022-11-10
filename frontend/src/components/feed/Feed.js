@@ -107,7 +107,7 @@ const Feed = ({ navigate }) => {
   }
 
   const defaultImage = () => {
-    if (imageURL === null) {
+    if (!imageURL) {
       return "/images/default_image.png";
     } else {
       return imageURL;

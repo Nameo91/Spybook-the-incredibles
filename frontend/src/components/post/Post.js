@@ -43,6 +43,19 @@ const Post = ({post, sessionUserId }) => {
 
   useEffect(loadComments, []);
 
+  const [showComments, setShowComments] = useState(false);
+  const handleShowComments = () => {
+    setShowComments(!showComments);
+  }
+
+  const commentsSentence = () => {
+    if(!showComments) {
+      return "view comments";
+    } else {
+      return "hide comments"
+    }
+  }
+
   const loadLikes = () => {
     if (token) {
       fetch("/likes", {
@@ -143,14 +156,16 @@ const Post = ({post, sessionUserId }) => {
         </div>
         {/* WRITE COMMENT*/}
         <CommentForm postId={post._id} profileImg={post.user.img} loadComments={loadComments} />
+
+        <button onClick={handleShowComments} id="show-comments-button">{commentsSentence()}</button>
+
         {/* ALL COMMENTS*/}
-        {relatedComments.map((comment) => (
+        {showComments&&relatedComments.map((comment) => (
           <Comment comment={comment} key={comment._id} />
         ))}
       </div>
     </div>
   );
 };
-
 
 export default Post;
