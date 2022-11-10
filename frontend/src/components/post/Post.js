@@ -78,6 +78,19 @@ const Post = ({post, sessionUserName, sessionUserId }) => {
 
   useEffect(loadComments, []);
 
+  const [showComments, setShowComments] = useState(false);
+  const handleShowComments = () => {
+    setShowComments(!showComments);
+  }
+
+  const commentsSentence = () => {
+    if(!showComments) {
+      return "view comments";
+    } else {
+      return "hide comments"
+    }
+  }
+
   return (
     <div className="posts-container" data-cy="post" key={post._id}>
       <div className="post">
@@ -121,15 +134,15 @@ const Post = ({post, sessionUserName, sessionUserId }) => {
         </div>
         {/* WRITE COMMENT*/}
         <CommentForm postId={post._id} profileImg={post.user.img} loadComments={loadComments} />
-
+        {/* LATEST COMMENT */}
+        <button onClick={handleShowComments} id="show-comments-button">{commentsSentence()}</button>
         {/* ALL COMMENTS*/}
-        {relatedComments.map((comment) => (
+        {showComments&&relatedComments.map((comment) => (
           <Comment comment={comment} key={comment._id} />
         ))}
       </div>
     </div>
   );
 };
-
 
 export default Post;

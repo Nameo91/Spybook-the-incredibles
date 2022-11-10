@@ -205,7 +205,21 @@
   font-weight: 400;
 } 
 
+#show-comments-button {
+  display: flex;
+  justify-content: space-between;
+  text-decoration: underline;
+  padding: 0.8rem 1.6rem;
+  border: none;
+  background: none;
+  color: #74777b;
+  font-size: 1rem;
+  cursor: pointer;
+}
 
+#show-comments-button:hover {
+  color: #c8cdd5;
+}
 
 
 
