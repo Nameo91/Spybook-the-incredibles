@@ -108,8 +108,8 @@ const Post = ({post, sessionUserId }) => {
         <div className="post-header">
           <div className="header-left">
             <img
-              src="/images/bird-avator.png"
-              alt="avatar"
+              src={!post.user.img ? "/images/default_image.png" : post.user.img}
+              alt="default_image"
               className="post-author-pic"
             ></img>
             <div className="post-author">
@@ -142,8 +142,7 @@ const Post = ({post, sessionUserId }) => {
           <div className="saparator"></div>
         </div>
         {/* WRITE COMMENT*/}
-        <CommentForm postId={post._id} loadComments={ loadComments } />
-
+        <CommentForm postId={post._id} profileImg={post.user.img} loadComments={loadComments} />
         {/* ALL COMMENTS*/}
         {relatedComments.map((comment) => (
           <Comment comment={comment} key={comment._id} />

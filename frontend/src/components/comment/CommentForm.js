@@ -5,15 +5,15 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 
 const elementPaperPlane = <FontAwesomeIcon icon={ faPaperPlane } size = '2x' />
 
-const CommentForm = ({ postId, loadComments }) => {
+const CommentForm = ({ postId, profileImg, loadComments }) => {
 
   const [comment, setComment] = useState("");
   const [token, setToken] = useState(window.localStorage.getItem("token"));
-
-
+    
+  
     const handleCommentSubmit = async (event) => {
         event.preventDefault();
-      
+        console.log(postId);
         if (token) fetch('/comments', {
           method: 'post',
           headers: {
@@ -41,7 +41,7 @@ const CommentForm = ({ postId, loadComments }) => {
       <div className="comments">
       <div className="comments-box">
         <div className="box-profile">
-          <img src="/images/bird-avator.png" alt="avatar" className="profile-pic" ></img> 
+          <img src={ !profileImg ? "/images/default_image.png" : profileImg } alt="avatar" className="profile-pic" ></img> 
         </div>
         <div className="box-bar">
           <input type="text" placeholder='Write a comment...' className="bar-input" value={ comment } onChange={ handleCommentChange }></input>
