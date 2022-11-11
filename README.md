@@ -1,6 +1,6 @@
-# The Incredibles - spybook
+# The Incredibles - Spybook
 
-Our goal for this project was to build a clone of Facebook - 'spybook', specifically for the superhero community. Our aim was to create a fun but professional looking social media website. 
+Our goal for this project was to build a clone of Facebook - 'Spybook', specifically for the superhero community. Our aim was to create a fun but professional looking social media website. 
 
 # Description
 
@@ -16,7 +16,7 @@ A significant part of this challenge was to familiarise ourselves with an existi
 
 # Technologies
 
-Our application was written with JavaScript, CSS and JSX. Here's an overview of the technologies we used to build our application.
+Spybook was written with JavaScript, CSS and JSX. Here's an overview of the technologies we used to build our application.
 
 ### **M** is for MongoDB
 [MongoDB](https://www.mongodb.com/) is a _NoSQL_ database program that stores data in collections of JSON-like structures, rather than in tables. The application interracts with MongoDB using a tool called Mongoose.
@@ -28,7 +28,7 @@ Our application was written with JavaScript, CSS and JSX. Here's an overview of 
 [React](https://reactjs.org/) is a hugely popular tool that is used to build engaging front ends. The basic principle is that the front end is split up into _components_, each of which _could_ include some logic, template structure (HTML) and styling (CSS).
 
 ### **N** is for Node
-Java script was originally designed to run exclusively in browsers, such as Chrome. [Node](https://nodejs.org/en/) is a tool that allows you to run Javascript outside the browser and its invention made it possible to build full stack Javascript apps.
+JavaScript was originally designed to run exclusively in browsers, such as Chrome. [Node](https://nodejs.org/en/) is a tool that allows you to run Javascript outside the browser and its invention made it possible to build full stack Javascript apps.
 
 We also used...
 
@@ -40,14 +40,14 @@ We also used...
 - [Heroku](https://www.heroku.com/) to deploy our application to the web.
 - Bcrypt to encrypt user passwords.
 
-# Future features
+# Future features for Spybook
 
-- Like other user's comments
-- Private messaging
-- Friend requests
-- Profile pages
-- Upload and share videos
-- Start groups
+- Users can like other user's comments
+- Users can send private messages
+- Users can send and recieve friend requests
+- Users have their own profile pages
+- Users can upload and share videos
+- Users can create and join groups
 
 # Project setup
 
@@ -94,14 +94,16 @@ You should now be able to open your browser and go to `http://localhost:3000/` w
 
 This project was created by:
 
-[Oliver Beck](https://github.com/Ollie-HB)
-[Lauren Brabbin](https://github.com/laurenbrabbin)
-[Pauline Davis](https://github.com/paulinejdavis)
-[Na-Rae Kim](https://github.com/Nameo91)
-[Tauqeer Shoaib](https://github.com/tauqeer92)
-[Kate Usacova](https://github.com/kateusacova)
+- [Oliver Beck](https://github.com/Ollie-HB)
+- [Lauren Brabbin](https://github.com/laurenbrabbin)
+- [Pauline Davis](https://github.com/paulinejdavis)
+- [Na-Rae Kim](https://github.com/Nameo91)
+- [Tauqeer Shoaib](https://github.com/tauqeer92)
+- [Kate Usacova](https://github.com/kateusacova)
 
 # How to contribute ❤
 
-Follow the Project Setup / Running the application steps above to build upon our exsiting project. We welcome any and all contributions. 
+Follow the Project Setup / Running the application steps above to build upon our exsiting project. Open source contributions can include translating to other languages, adding new features, and improving and expanding test functionality.
+
+We welcome any and all contributions. 
 
