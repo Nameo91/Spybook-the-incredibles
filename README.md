@@ -4,19 +4,19 @@ Our goal for this project was to build a clone of Facebook - 'spybook', specific
 
 # Description
 
-Our JavaSCript application allows superheroes to:
+Our user story:
 
-Sign-up to the platform with their own display picture.
-Log in and sign out of the platform.
-Post their thoughts and share images with other spybook users.
-Comment on their own and other user's posts.
-Like their own and other user's posts.
+- Users can sign-up to the platform with their own display picture.
+- Users can log in and sign out of the platform.
+- Users can post their thoughts and share images with other spybook users.
+- Usres can comment on their own and other user's posts.
+- Users can like their own and other user's posts.
 
 A significant part of this challenge was to familiarise ourselves with an existing codebase. We debugged the original codebase and implemented a number of new features, replicating some of Facebook's functionality, including posts, comments, likes and the ability to upload images.
 
 # Technologies
 
-Here's an overview of the technologies we used to build our application.
+Our application was written with JavaScript, CSS and JSX. Here's an overview of the technologies we used to build our application.
 
 ### **M** is for MongoDB
 [MongoDB](https://www.mongodb.com/) is a _NoSQL_ database program that stores data in collections of JSON-like structures, rather than in tables. The application interracts with MongoDB using a tool called Mongoose.
@@ -38,7 +38,7 @@ We also used...
 - [Nodemon](https://nodemon.io/) to reload the server automatically.
 - [Firebase](https://firebase.google.com/) to store images in a remote database.
 - [Heroku](https://www.heroku.com/) to deploy our application to the web.
-- [Bcrypt] to encrypt user passwords.
+- Bcrypt to encrypt user passwords.
 
 # Future features
 
@@ -87,4 +87,21 @@ We also used...
   ```
 
 You should now be able to open your browser and go to `http://localhost:3000/` which directs you to the hompeage, where you can sign-up or log in.
+
+(Add heroku link here)
+
+# The Incredibles team
+
+This project was created by:
+
+[Oliver Beck](https://github.com/Ollie-HB)
+[Lauren Brabbin](https://github.com/laurenbrabbin)
+[Pauline Davis](https://github.com/paulinejdavis)
+[Na-Rae Kim](https://github.com/Nameo91)
+[Tauqeer Shoaib](https://github.com/tauqeer92)
+[Kate Usacova](https://github.com/kateusacova)
+
+# How to contribute ❤
+
+Follow the Project Setup / Running the application steps above to build upon our exsiting project. We welcome any and all contributions. 
 
